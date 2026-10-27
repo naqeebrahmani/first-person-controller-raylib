@@ -43,22 +43,22 @@ class Player{
 
         
 
-        if(IsKeyPressed(KEY_W)){
+        if(IsKeyDown(KEY_W)){ 
             this->velocity.z = 1;
         }
-        if(IsKeyPressed(KEY_S)){
+        if(IsKeyDown(KEY_S)){
             this->velocity.z = -1;
         }
-        if(IsKeyPressed(KEY_A)){
+        if(IsKeyDown(KEY_A)){
             this->velocity.x = -1;
         }
-        if(IsKeyPressed(KEY_D)){
+        if(IsKeyDown(KEY_D)){
             this->velocity.x = 1;
         }
 
-        if(IsKeyUp(KEY_W) && IsKeyUp(KEY_A) && IsKeyUp(KEY_S) && IsKeyUp(KEY_D)){
-            this->velocity = Vector3{};
-        }
+        //if(IsKeyUp(KEY_W) && IsKeyUp(KEY_A) && IsKeyUp(KEY_S) && IsKeyUp(KEY_D)){
+        //    this->velocity = Vector3{};
+        //}
 
 
 

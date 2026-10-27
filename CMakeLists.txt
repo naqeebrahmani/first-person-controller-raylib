@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.23)
 
 project(FPS_CAM)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 add_executable(main)
 
 target_sources(main

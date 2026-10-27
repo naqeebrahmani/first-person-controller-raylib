@@ -3,7 +3,11 @@
 
 class Player{
 
-    Vector3 position;
+    float speed = 1.0f;
+
+    Vector3 position{};
+
+    Vector3 rotation{};
 
     Vector3 velocity{0, 0, 0};
 
@@ -32,9 +36,50 @@ class Player{
         return &this->camera;
     }
 
-    void UpdateCam(){
+    void MovePlayer(float delta){ //velocity is not normalized as of now
 
         
+
+        if(IsKeyPressed(KEY_W)){
+            this->velocity.z = 1;
+        }
+        if(IsKeyPressed(KEY_S)){
+            this->velocity.z = -1;
+        }
+        if(IsKeyPressed(KEY_A)){
+            this->velocity.x = -1;
+        }
+        if(IsKeyPressed(KEY_D)){
+            this->velocity.x = 1;
+        }
+
+        if(IsKeyUp(KEY_W) && IsKeyUp(KEY_A) && IsKeyUp(KEY_S) && IsKeyUp(KEY_D)){
+            this->velocity = Vector3{};
+        }
+
+
+
+        if(!(this->velocity.x == 0 && this->velocity.y == 0 && this->velocity.z == 0)){
+
+            this->velocity.x *= this->speed; this->velocity.x *= this->speed; this->velocity.x *= this->speed; 
+
+            this->velocity.x *= delta; this->velocity.x *= delta; this->velocity.x *= delta; 
+
+           }
+
+        this->position.x += this->velocity.x;
+        this->position.y += this->velocity.y;
+        this->position.z += this->velocity.z;
+
+    }
+
+
+    void UpdateCam(float delta){
+
+        this->camera.position = this->position;
+        this->camera.position.y = this->position.y + 1;
+
+
 
     }
 
@@ -76,8 +121,10 @@ int main(){
 
         EndDrawing();
 
+        player.MovePlayer(GetFrameTime());
+
         //updating the camera
-        player.UpdateCam();
+        player.UpdateCam(GetFrameTime());
 
     
 

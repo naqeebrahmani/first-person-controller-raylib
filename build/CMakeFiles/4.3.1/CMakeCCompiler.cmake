@@ -1,4 +1,4 @@
-set(CMAKE_C_COMPILER "C:/Libraries/raylib/w64devkit/bin/ccache-gcc.exe")
+set(CMAKE_C_COMPILER "C:/Libraries/raylib/w64devkit/bin/cc.exe")
 set(CMAKE_C_COMPILER_ARG1 "")
 set(CMAKE_C_COMPILER_ID "GNU")
 set(CMAKE_C_COMPILER_VERSION "15.2.0")
@@ -25,9 +25,9 @@ set(CMAKE_C_COMPILER_ARCHITECTURE_ID "x86_64")
 
 
 set(CMAKE_AR "C:/Libraries/raylib/w64devkit/bin/ar.exe")
-set(CMAKE_C_COMPILER_AR "CMAKE_C_COMPILER_AR-NOTFOUND")
+set(CMAKE_C_COMPILER_AR "C:/Libraries/raylib/w64devkit/bin/gcc-ar.exe")
 set(CMAKE_RANLIB "C:/Libraries/raylib/w64devkit/bin/ranlib.exe")
-set(CMAKE_C_COMPILER_RANLIB "CMAKE_C_COMPILER_RANLIB-NOTFOUND")
+set(CMAKE_C_COMPILER_RANLIB "C:/Libraries/raylib/w64devkit/bin/gcc-ranlib.exe")
 set(CMAKE_LINKER "C:/Libraries/raylib/w64devkit/bin/ld.exe")
 set(CMAKE_LINKER_LINK "")
 set(CMAKE_LINKER_LLD "")

@@ -1,8 +1,0 @@
-[
-{
-  "directory": "C:/Users/naqee/Desktop/C++/raylib/fps-controller/build",
-  "command": "C:\\Libraries\\raylib\\w64devkit\\bin\\ccache-g++.exe -IC:/Libraries/raylib/raylib/build/raylib/include -g -o CMakeFiles\\main.dir\\main.cpp.obj -c C:\\Users\\naqee\\Desktop\\C++\\raylib\\fps-controller\\main.cpp",
-  "file": "C:/Users/naqee/Desktop/C++/raylib/fps-controller/main.cpp",
-  "output": "C:/Users/naqee/Desktop/C++/raylib/fps-controller/build/CMakeFiles/main.dir/main.cpp.obj"
-}
-]

@@ -1,9 +1,12 @@
+#include <iostream>
+#include <cstdlib>
 #include <raylib.h>
+
 
 
 class Player{
 
-    float speed = 1.0f;
+    float speed = 20.0f;
 
     Vector3 position{};
 
@@ -59,17 +62,12 @@ class Player{
 
 
 
-        if(!(this->velocity.x == 0 && this->velocity.y == 0 && this->velocity.z == 0)){
-
-            this->velocity.x *= this->speed; this->velocity.x *= this->speed; this->velocity.x *= this->speed; 
-
-            this->velocity.x *= delta; this->velocity.x *= delta; this->velocity.x *= delta; 
-
-           }
+        this->velocity.x *= this->speed * delta; this->velocity.y *= this->speed * delta; this->velocity.z *= this->speed * delta; 
 
         this->position.x += this->velocity.x;
         this->position.y += this->velocity.y;
         this->position.z += this->velocity.z;
+
 
     }
 
@@ -116,10 +114,12 @@ int main(){
 
         //the crosshair
         DrawLineEx(Vector2{GetScreenWidth()/2.0f, GetScreenHeight()/2.0f - 10}, Vector2{GetScreenWidth()/2.0f, GetScreenHeight()/2.0f + 10}, 3.0f, BLACK);
-         DrawLineEx(Vector2{GetScreenWidth()/2.0f - 10.0f, GetScreenHeight()/2.0f}, Vector2{GetScreenWidth()/2.0f + 10.0f, GetScreenHeight()/2.0f}, 3.0f, BLACK);
+        DrawLineEx(Vector2{GetScreenWidth()/2.0f - 10.0f, GetScreenHeight()/2.0f}, Vector2{GetScreenWidth()/2.0f + 10.0f, GetScreenHeight()/2.0f}, 3.0f, BLACK);
         //////////////
 
         EndDrawing();
+
+        system("clear");
 
         player.MovePlayer(GetFrameTime());
 

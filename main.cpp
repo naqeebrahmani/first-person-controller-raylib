@@ -1,12 +1,13 @@
 #include <iostream>
 #include <cstdlib>
 #include <raylib.h>
+#include <raymath.h>
 
 
 
 class Player{
 
-    float speed = 20.0f;
+    float speed = 10.0f;
 
     Vector3 position{};
 
@@ -15,6 +16,8 @@ class Player{
     Vector3 velocity{0, 0, 0};
 
     Camera3D camera;
+
+    float sensitivity = 1.0f;
 
     public:
 
@@ -41,43 +44,86 @@ class Player{
 
     void MovePlayer(float delta){ //velocity is not normalized as of now
 
+        Vector3 direction{};
+
+        //trying to get where the camera is looking at
+        Vector3 cameratarget = this->camera.target; //this is "front"
+
         
 
         if(IsKeyDown(KEY_W)){ 
-            this->velocity.z = 1;
+            direction.z = 1;
         }
         if(IsKeyDown(KEY_S)){
-            this->velocity.z = -1;
+            direction.z = -1;
         }
         if(IsKeyDown(KEY_A)){
-            this->velocity.x = -1;
+            direction.x = -1;
         }
         if(IsKeyDown(KEY_D)){
-            this->velocity.x = 1;
+            direction.x = 1;
         }
 
-        //if(IsKeyUp(KEY_W) && IsKeyUp(KEY_A) && IsKeyUp(KEY_S) && IsKeyUp(KEY_D)){
-        //    this->velocity = Vector3{};
-        //}
+        //saving the direction in velocity
+        this->velocity.x = direction.x; 
+        this->velocity.y = direction.y;
+        this->velocity.z = direction.z;
 
+        //adding speed
+        this->velocity.x *= this->speed;
+        this->velocity.y *= this->speed;
+        this->velocity.z *= this->speed; 
 
-
-        this->velocity.x *= this->speed * delta; this->velocity.y *= this->speed * delta; this->velocity.z *= this->speed * delta; 
-
-        this->position.x += this->velocity.x;
-        this->position.y += this->velocity.y;
-        this->position.z += this->velocity.z;
+        //moving the player
+        this->position.x += this->velocity.x * delta;
+        this->position.y += this->velocity.y * delta;
+        this->position.z += this->velocity.z * delta;
 
 
     }
 
 
-    void UpdateCam(float delta){
-
-        this->camera.position = this->position;
-        this->camera.position.y = this->position.y + 1;
+    void UpdateCam(){
 
 
+        Vector2 md = GetMouseDelta();
+
+        this->rotation.x -= md.x * sensitivity;
+        this->rotation.y += md.y * sensitivity;
+
+        if(this->rotation.x > 360) this->rotation.x -= 360;
+        if(this->rotation.y > 360) this->rotation.y -= 360;
+        if(this->rotation.x < -360) this->rotation.x += 360;
+        if(this->rotation.y < -360) this->rotation.y += 360;
+
+
+        
+        //finding the distance between the camera's x,z and the target's
+        float d = Vector2Distance(Vector2{this->camera.position.x, this->camera.position.z}, {Vector2{this->camera.target.x, this->camera.target.z}});
+
+        //d, d2 and d3 are the different sides of a triangle
+
+        float d2 = sin(this->rotation.x * DEG2RAD) * d;
+    
+
+        float d3 = cos(this->rotation.x * DEG2RAD) * d;
+
+
+        this->camera.target.x = this->camera.position.x + d2;
+        this->camera.target.z = this->camera.position.z + d3;
+
+
+        //d, d2 and d3 are the different sides of a triangle
+        //d = Vector2Distance(Vector2{this->camera.position.x, this->camera.position.y}, Vector2{this->camera.target.x, this->camera.target.y});
+
+        d2 = sin(this->rotation.y * DEG2RAD) * d;
+
+        //d3 = cos(this->rotation.y * DEG2RAD) * d;
+
+        //this->camera.target.x = this->camera.position.x + d2;
+        this->camera.target.y = this->camera.position.y + d2;
+
+        
 
     }
 
@@ -107,6 +153,7 @@ int main(){
         //drawing the floor
         DrawCube(Vector3{0, -0.5, 0}, 25, 1, 25, GRAY); 
 
+        DrawCube(Vector3{5, 0, 7}, 1, 2, 1, RED);
 
         EndMode3D();
 
@@ -121,10 +168,10 @@ int main(){
 
         system("clear");
 
-        player.MovePlayer(GetFrameTime());
+        //player.MovePlayer(GetFrameTime());
 
         //updating the camera
-        player.UpdateCam(GetFrameTime());
+        player.UpdateCam();
 
     
 

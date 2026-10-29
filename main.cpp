@@ -1,3 +1,4 @@
+#include <cmath>
 #include <iostream>
 #include <cstdlib>
 #include <raylib.h>
@@ -89,12 +90,10 @@ class Player{
         Vector2 md = GetMouseDelta();
 
         this->rotation.x -= md.x * sensitivity;
-        this->rotation.y += md.y * sensitivity;
+        this->rotation.y -= md.y * sensitivity;
 
-        if(this->rotation.x > 360) this->rotation.x -= 360;
-        if(this->rotation.y > 360) this->rotation.y -= 360;
-        if(this->rotation.x < -360) this->rotation.x += 360;
-        if(this->rotation.y < -360) this->rotation.y += 360;
+        if(this->rotation.y > 90) this->rotation.y = 90;
+        if(this->rotation.y < -90) this->rotation.y = -90;
 
 
         
@@ -104,7 +103,7 @@ class Player{
         //d, d2 and d3 are the different sides of a triangle
 
         float d2 = sin(this->rotation.x * DEG2RAD) * d;
-    
+
 
         float d3 = cos(this->rotation.x * DEG2RAD) * d;
 
@@ -114,13 +113,17 @@ class Player{
 
 
         //d, d2 and d3 are the different sides of a triangle
-        //d = Vector2Distance(Vector2{this->camera.position.x, this->camera.position.y}, Vector2{this->camera.target.x, this->camera.target.y});
 
-        d2 = sin(this->rotation.y * DEG2RAD) * d;
+        //using the sphere equation x^2 + y^2 + z^2 = r^2
+        //r is distance to target
+        float dx = this->camera.position.x - this->camera.target.x; float dy = this->camera.position.y - this->camera.target.y; float dz = this->camera.position.z - this->camera.target.z;
+        float r = sqrt(dx*dx + dy*dy + dz*dz);
+        
+        
 
-        //d3 = cos(this->rotation.y * DEG2RAD) * d;
+        d2 = sin(this->rotation.y * DEG2RAD) * r;
 
-        //this->camera.target.x = this->camera.position.x + d2;
+        
         this->camera.target.y = this->camera.position.y + d2;
 
         

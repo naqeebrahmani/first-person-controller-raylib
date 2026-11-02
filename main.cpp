@@ -43,14 +43,14 @@ class Player{
         return &this->camera;
     }
 
-    void MovePlayer(float delta){ //velocity is not normalized as of now
-
-        Vector3 direction{};
+    void MovePlayer(float delta){ //velocity is not normalized as of no
 
         //trying to get where the camera is looking at
         Vector3 cameratarget = this->camera.target; //this is "front"
 
+        Vector3 camdirection = Vector3Normalize(Vector3{this->camera.target.x, 0, this->camera.target.z});
         
+        Vector3 direction{};
 
         if(IsKeyDown(KEY_W)){ 
             direction.z = 1;
@@ -65,21 +65,11 @@ class Player{
             direction.x = 1;
         }
 
-        //saving the direction in velocity
-        this->velocity.x = direction.x; 
-        this->velocity.y = direction.y;
-        this->velocity.z = direction.z;
-
-        //adding speed
-        this->velocity.x *= this->speed;
-        this->velocity.y *= this->speed;
-        this->velocity.z *= this->speed; 
-
-        //moving the player
-        this->position.x += this->velocity.x * delta;
-        this->position.y += this->velocity.y * delta;
-        this->position.z += this->velocity.z * delta;
-
+        
+        
+        this->position.x = velocity.x;
+        this->position.y = velocity.y;
+        this->position.z = velocity.z;
 
     }
 
@@ -94,7 +84,6 @@ class Player{
 
         if(this->rotation.y > 90) this->rotation.y = 90;
         if(this->rotation.y < -90) this->rotation.y = -90;
-
 
         
         //finding the distance between the camera's x,z and the target's
@@ -171,7 +160,7 @@ int main(){
 
         system("clear");
 
-        //player.MovePlayer(GetFrameTime());
+        player.MovePlayer(GetFrameTime());
 
         //updating the camera
         player.UpdateCam();

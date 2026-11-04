@@ -8,13 +8,11 @@
 
 class Player{
 
-    float speed = 10.0f;
+    float speed = 20.0f;
 
     Vector3 position{};
 
     Vector3 rotation{};
-
-    Vector3 velocity{0, 0, 0};
 
     Camera3D camera;
 
@@ -43,14 +41,12 @@ class Player{
         return &this->camera;
     }
 
-    void MovePlayer(float delta){ //velocity is not normalized as of no
+    void MovePlayer(float delta){ 
 
-        //trying to get where the camera is looking at
-        Vector3 cameratarget = this->camera.target; //this is "front"
-
+        //the camera's front direction
         Vector3 camdirection = Vector3Normalize(Vector3{this->camera.target.x, 0, this->camera.target.z});
         
-        Vector3 direction{};
+        Vector3 direction{}; //the player's direction. +z is front -z back and +x is right -x left
 
         if(IsKeyDown(KEY_W)){ 
             direction.z = 1;
@@ -65,11 +61,19 @@ class Player{
             direction.x = 1;
         }
 
+        float speedperframe = speed * delta;
         
-        
-        this->position.x = velocity.x;
-        this->position.y = velocity.y;
-        this->position.z = velocity.z;
+        this->position.x += direction.x * speedperframe;
+        this->position.y = direction.y * speedperframe;
+        this->position.z = direction.z * speedperframe;
+
+        this->camera.position.x += direction.x * speedperframe;
+        this->camera.position.y += direction.y * speedperframe;
+        this->camera.position.z += direction.z * speedperframe;
+
+        this->camera.target.x += direction.x * speedperframe;
+        this->camera.target.y += direction.y * speedperframe;
+        this->camera.target.z += direction.z * speedperframe;
 
     }
 

@@ -20,7 +20,7 @@ class Player{
 
         Camera3D camera;
 
-        float sensitivity = 1.0f;
+        float sensitivity = 0.5f;
 
         float offset = 1;
 
@@ -82,15 +82,28 @@ class Player{
             std::cout << std::format("cameradirection vector3: {}, {}, {}", camdirection.x, 0, camdirection.z);
 
 
-            //making the player move in the direction the camera is looking
+            //movement code
             
+            if(direction != Vector3Zeros){
 
-            this->position.x += camdirection.x * direction.x * speedperframe;
-            this->position.z += camdirection.z * direction.z * speedperframe;
+                //creating a vector 2 because we i be using y so only x and z
+                Vector2 newPos{0, 0};
 
 
-            //updating the camera's position based on the players
-            UpdateCameraPos(this->position, this->offset);
+                //fixing front/back movement
+
+                this->position.x += camdirection.x * direction.z * speedperframe * -1; //multipliying with -1 because the player was moving forward when pressing s before multiplying with -1
+                this->position.z += camdirection.z * direction.z * speedperframe * -1;
+
+                
+
+
+                //updating the camera's position based on the players
+                UpdateCameraPos(this->position, this->offset);
+            }
+
+
+
 
         }
 

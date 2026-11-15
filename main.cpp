@@ -95,7 +95,8 @@ class Player{
                 this->position.x += camdirection.x * direction.z * speedperframe * -1; //multipliying with -1 because the player was moving forward when pressing s before multiplying with -1
                 this->position.z += camdirection.z * direction.z * speedperframe * -1;
 
-                
+                this->camera.target.x += camdirection.x * direction.z * speedperframe * -1;
+                this->camera.target.z += camdirection.z * direction.z * speedperframe * -1;
 
 
                 //updating the camera's position based on the players
@@ -170,14 +171,18 @@ int main(){
         //2d drawing
         BeginDrawing();
 
-        ClearBackground(WHITE);
+        ClearBackground(BLACK);
 
 
         //3d drawing
         BeginMode3D(*player.ReturnCamera());
 
+        //drawing the grid
+        //DrawGrid(100, 1);
+
         //drawing the floor
         DrawCube(Vector3{0, -0.5, 0}, 25, 1, 25, GRAY); 
+        DrawCubeWires(Vector3{0,-0.5,0}, 25, 1, 25, RED);
 
         DrawCube(Vector3{5, 0, 7}, 1, 2, 1, RED);
 
